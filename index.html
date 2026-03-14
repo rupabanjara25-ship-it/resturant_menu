@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Feast | Luxury Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --gold: #d4af37; 
+            --bright-gold: #ffcc33;
+            --dark-bg: #0a0a0a; 
+            --glass: rgba(255, 255, 255, 0.07);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body { 
+            font-family: 'Poppins', sans-serif; margin: 0; 
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1200');
+            background-size: cover; background-attachment: fixed; background-position: center;
+            color: white; overflow-x: hidden;
+        }
+
+        /* --- LUXURY GLASS LOGIN --- */
+        #login-screen { 
+            position: fixed; inset: 0; background: var(--dark-bg);
+            display: flex; justify-content: center; align-items: center; z-index: 9999; 
+        }
+
+        .premium-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            padding: 50px 30px;
+            border-radius: 40px;
+            width: 90%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .premium-card h1 { 
+            font-family: 'Playfair Display'; font-size: 2.5rem; margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, var(--gold), #fff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        .premium-card input { 
+            width: 100%; padding: 15px; margin: 12px 0; 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
+            border-radius: 15px; color: white; outline: none; transition: 0.3s; box-sizing: border-box;
+        }
+
+        .premium-card input:focus { border-color: var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+
+        .gold-btn { 
+            width: 100%; padding: 16px; background: var(--gold); color: black; 
+            border: none; border-radius: 15px; font-weight: bold; font-size: 1rem;
+            cursor: pointer; transition: 0.4s; text-transform: uppercase; letter-spacing: 2px;
+            margin-top: 15px;
+        }
+
+        .gold-btn:hover { background: white; transform: scale(1.02); box-shadow: 0 10px 25px rgba(212,175,55,0.5); }
+
+        /* --- NAVIGATION --- */
+        nav { 
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); 
+            padding: 15px 25px; display: flex; justify-content: space-between; 
+            align-items: center; position: sticky; top:0; z-index: 1000; border-bottom: 1px solid var(--gold); 
+        }
+
+        .container { max-width: 600px; margin: auto; padding: 20px; }
+
+        /* --- LUXURY ADMIN PANEL (NO WHITE) --- */
+        #admin-panel { 
+            background: rgba(20, 20, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold);
+            padding: 30px; border-radius: 30px; margin-bottom: 30px; 
+            display: none; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        /* --- MENU CARDS --- */
+        .item-list { display: flex; flex-direction: column; gap: 20px; padding-bottom: 120px; }
+        .item-card { 
+            background: var(--glass); backdrop-filter: blur(10px); 
+            padding: 15px; border-radius: 30px; display: flex; align-items: center; gap: 20px; 
+            cursor: pointer; transition: 0.4s; border: 1px solid var(--glass-border);
+        }
+        .item-card:hover { transform: translateY(-8px); border-color: var(--gold); background: rgba(255,255,255,0.12); }
+        
+        .food-thumb { width: 90px; height: 90px; border-radius: 20px; object-fit: cover; border: 2px solid var(--gold); }
+        .item-info h3 { margin: 0; font-family: 'Playfair Display'; color: var(--gold); }
+        .price { color: #00ff88; font-weight: bold; font-size: 1.2rem; }
+
+        /* --- CHECKOUT --- */
+        .checkout-btn { 
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); 
+            width: 90%; max-width: 450px; background: var(--gold); color: black; 
+            padding: 18px; border-radius: 50px; font-weight: bold; 
+            display: flex; justify-content: space-between; align-items: center; 
+            box-shadow: 0 10px 40px rgba(212,175,55,0.4); border: none; cursor: pointer;
+        }
+
+        /* --- MODAL --- */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 9999; }
+        .modal-content { background: #111; color: white; width: 90%; max-width: 400px; padding: 35px; border-radius: 35px; border: 1px solid var(--gold); }
+    </style>
+</head>
+<body>
+
+<div id="login-screen">
+    <div class="premium-card">
+        <h1>The Royal Feast</h1>
+        <p style="color: #888; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 25px;">EXPERIENCE LUXURY DINING</p>
+        <input type="text" id="uName" placeholder="Enter Your Name">
+        <input type="number" id="uPhone" placeholder="Mobile Number">
+        <button onclick="doLogin()" class="gold-btn">Enter Lounge</button>
+    </div>
+</div>
+
+<nav>
+    <div><small style="color:var(--gold)">MEMBER</small><br><b id="userNameLabel">Guest</b></div>
+    <button onclick="toggleAdmin()" style="background:none; border:1px solid var(--gold); color:var(--gold); padding:8px 18px; border-radius:50px; cursor:pointer;">ADMIN</button>
+</nav>
+
+<div class="container">
+    <div id="admin-panel">
+        <span onclick="toggleAdmin()" style="position:absolute; top:15px; right:20px; cursor:pointer; color:red; font-size: 25px;">&times;</span>
+        <h3 style="color:var(--gold); margin-top:0">Add New Delicacy</h3>
+        <input type="text" id="nameIn" placeholder="Dish Name" style="width:100%; padding:12px; margin-bottom:10px; border-radius:10px; background:#222; border:1px solid #444; color:white;">
+        <div style="display:flex; gap:10px;">
+            <input type="number" id="priceIn" placeholder="Price ₹" style="flex:1; padding:12px; border-radius:10px; background:#222; border:1px solid #444; color:white;">
+            <input type="number" id="stockIn" placeholder="Stock" style="flex:1; padding:12px; border-radius:10px; background:#222; border:1px solid #444; color:white;">
+        </div>
+        <input type="text" id="imgIn" placeholder="Image URL (Link)" style="width:100%; padding:12px; margin-top:10px; border-radius:10px; background:#222; border:1px solid #444; color:white;">
+        <button onclick="saveItem()" class="gold-btn">Save to Menu</button>
+        <div id="adminItemList" style="margin-top:20px; max-height: 150px; overflow-y: auto;"></div>
+    </div>
+
+    <h2 style="text-align:center; font-family:'Playfair Display'; font-size: 2.2rem; margin-bottom: 40px; color:white;">Chef's Special Selection</h2>
+    <div class="item-list" id="menuDisplay"></div>
+
+    <button onclick="viewBill()" class="checkout-btn">
+        <span>MY PLATE</span>
+        <span>VIEW BILL 🧾</span>
+    </button>
+</div>
+
+<div class="modal" id="billModal">
+    <div class="modal-content">
+        <h2 style="text-align:center; font-family:'Playfair Display'; color:var(--gold)">Final Receipt</h2>
+        <div id="billUser" style="padding:10px; border-bottom:1px solid #333; margin-bottom:15px; font-size:0.9rem;"></div>
+        <table id="billList" style="width:100%; margin-bottom:20px;"></table>
+        <h2 id="billTotal" style="text-align:right; border-top:1px solid var(--gold); padding-top:10px;"></h2>
+        <button onclick="location.reload()" class="gold-btn">Confirm Order</button>
+    </div>
+</div>
+
+<script>
+    let user = { n: "", p: "" };
+    let items = JSON.parse(localStorage.getItem('royalMenuV6')) || [];
+    let cart = [];
+
+    function doLogin() {
+        const n = document.getElementById('uName').value;
+        const p = document.getElementById('uPhone').value;
+        if(n && p.length >= 10) {
+            user = { n, p };
+            document.getElementById('userNameLabel').innerText = n;
+            document.getElementById('login-screen').style.display = 'none';
+            render();
+        } else { alert("Please enter valid details!"); }
+    }
+
+    function toggleAdmin() {
+        const ap = document.getElementById('admin-panel');
+        ap.style.display = (ap.style.display === 'block') ? 'none' : 'block';
+        renderAdminList();
+    }
+
+    function saveItem() {
+        const name = document.getElementById('nameIn').value;
+        const price = document.getElementById('priceIn').value;
+        const stock = document.getElementById('stockIn').value;
+        const img = document.getElementById('imgIn').value || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400";
+        if(name && price && stock) {
+            items.push({ name, price: parseInt(price), stock: parseInt(stock), img });
+            sync();
+            toggleAdmin();
+            document.getElementById('nameIn').value = ""; document.getElementById('priceIn').value = ""; document.getElementById('stockIn').value = ""; document.getElementById('imgIn').value = "";
+        }
+    }
+
+    function deleteItem(idx) {
+        items.splice(idx, 1);
+        sync();
+        renderAdminList();
+    }
+
+    function sync() {
+        localStorage.setItem('royalMenuV6', JSON.stringify(items));
+        render();
+    }
+
+    function renderAdminList() {
+        const list = document.getElementById('adminItemList');
+        list.innerHTML = '<hr style="border-color:#333">';
+        items.forEach((it, i) => {
+            list.innerHTML += `
+                <div style="display:flex; justify-content:space-between; padding:8px; background:rgba(255,255,255,0.05); margin-bottom:5px; border-radius:8px;">
+                    <span>${it.name} (${it.stock})</span>
+                    <span onclick="deleteItem(${i})" style="color:#ff4444; cursor:pointer;">Delete</span>
+                </div>`;
+        });
+    }
+
+    function render() {
+        const menu = document.getElementById('menuDisplay');
+        menu.innerHTML = '';
+        const active = items.filter(it => it.stock > 0);
+        if(active.length === 0) {
+            menu.innerHTML = '<p style="text-align:center; opacity:0.5;">Menu is empty. Admin, please add dishes.</p>';
+            return;
+        }
+        items.forEach((it, i) => {
+            if(it.stock > 0) {
+                menu.innerHTML += `
+                    <div class="item-card" onclick="add(${i})">
+                        <img src="${it.img}" class="food-thumb">
+                        <div class="item-info">
+                            <h3>${it.name}</h3>
+                            <span class="price">₹${it.price}</span>
+                            <div style="font-size:11px; color:#888; margin-top:5px;">In Stock: ${it.stock}</div>
+                        </div>
+                    </div>`;
+            }
+        });
+    }
+
+    function add(i) {
+        const it = items[i];
+        const q = prompt(`Portions of "${it.name}"?`, "1");
+        if(q && parseInt(q) <= it.stock && parseInt(q) > 0) {
+            cart.push({ n: it.name, p: it.price, q: parseInt(q) });
+            items[i].stock -= parseInt(q);
+            sync();
+        } else if(q) { alert("Invalid stock!"); }
+    }
+
+    function viewBill() {
+        if(cart.length === 0) return alert("Select dishes first!");
+        document.getElementById('billUser').innerHTML = `<b>Guest:</b> ${user.n} <br> <b>Phone:</b> ${user.p}`;
+        const list = document.getElementById('billList');
+        let total = 0; list.innerHTML = '';
+        cart.forEach(c => {
+            total += (c.p * c.q);
+            list.innerHTML += `<tr><td style="padding:8px 0;">${c.n} x ${c.q}</td><td style="text-align:right">₹${c.p * c.q}</td></tr>`;
+        });
+        document.getElementById('billTotal').innerText = "Total: ₹" + total;
+        document.getElementById('billModal').style.display = 'flex';
+    }
+</script>
+
+</body>
+</html>
